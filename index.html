@@ -1,20 +1,34 @@
 <!doctype html>
 <html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Start – SchützenTracker</title>
-<style>
-:root{color-scheme:light dark;--bg:#f3f5f7;--card:#fff;--ink:#0f1a22;--mut:#5b6872;--acc:#0b6b8a;--line:#d9dfe4}
-@media (prefers-color-scheme:dark){:root{--bg:#10171c;--card:#182229;--ink:#e8eef2;--mut:#9aa8b2;--acc:#6cc3e0;--line:#2b3943}}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-main{max-width:760px;margin:0 auto;padding:20px 16px 48px}
-article{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 20px 8px}
-h1{font-size:1.7rem;line-height:1.2;margin:.2em 0 .4em}h2{font-size:1.2rem;margin:1.6em 0 .3em}h3{font-size:1.02rem;margin:1.2em 0 .2em}
-a{color:var(--acc)}nav{margin:0 0 14px;font-size:.95rem}nav a{margin-right:14px}.muted{color:var(--mut);font-size:.92rem}
-ul{padding-left:1.2em}footer{margin-top:18px;color:var(--mut);font-size:.9rem}
-</style></head><body><main>
-<nav><a href="index.html">Start</a><a href="datenschutz.html">Datenschutz</a><a href="impressum.html">Impressum</a><a href="konto-loeschen.html">Konto löschen</a></nav>
-<article>
-<h1>SchützenTracker</h1>
-<p>SchützenTracker ist eine App zum Erfassen von Trainings und Rundenkämpfen im Schießsport: Bogen, Luftgewehr, Sportpistole und Luftpistole.</p>
-<ul><li><a href="datenschutz.html">Datenschutzerklärung</a></li><li><a href="impressum.html">Impressum</a></li><li><a href="konto-loeschen.html">Konto und Daten löschen</a></li></ul>
-<p class="muted">Kontakt und Support: <a href="mailto:schuetzentrackerr@gmail.com">schuetzentrackerr@gmail.com</a></p>
-</article><footer>© 2026 Jannik Huckert</footer></main></body></html>
+<title>Start – SchützenTracker</title><link rel="icon" href="logo.png"><link rel="stylesheet" href="style.css">
+</head><body><main>
+<header class="brand"><img class="logo" src="logo.png" alt="" width="76" height="76"><h1>SchützenTracker</h1><p>Training und Rundenkampf im Schießsport</p></header>
+<nav aria-label="Seiten"><a href="index.html" class="on" aria-current="page">Start</a><a href="datenschutz.html">Datenschutz</a><a href="impressum.html">Impressum</a><a href="konto-loeschen.html">Konto löschen</a></nav>
+
+<section class="card"><h2>Was ist SchützenTracker?</h2><p>SchützenTracker ist deine App für Training und Rundenkampf im Schießsport. Du hältst deine Ergebnisse fest, siehst, wie du dich entwickelst, und führst Rundenkämpfe mit deiner Mannschaft, ohne Zettel und Taschenrechner.</p></section>
+<section class="card"><h2>Training</h2><ul>
+<li>Trage deine Treffer direkt auf der Scheibe ein oder tippe die Ringzahlen über die Tastatur ein.</li>
+<li>Die Scheibe ist maßstabsgetreu, die App berechnet die Ringe aus der Trefferlage.</li>
+<li>Du kannst ein Foto deiner Scheibe auswerten lassen. Die App schlägt die Treffer vor, du prüfst sie. Das Foto wird nur auf deinem Gerät ausgewertet und sofort gelöscht.</li>
+<li>Statistiken zeigen deinen Durchschnitt und deine Entwicklung über die Zeit.</li>
+</ul></section>
+<section class="card"><h2>Rundenkampf</h2><ul>
+<li>Lege Mannschaften an und führe den Kampf Schütze für Schütze mit Zwischenständen.</li>
+<li>Aus den Ergebnissen entsteht der Rundenkampfzettel als PDF, mit Unterschriften, zum Teilen oder Ausdrucken.</li>
+<li>Nur wer zur Mannschaft gehört, den Kampf führt oder dafür eingetragen ist (zum Beispiel als Schiedsrichter oder Schreiber), darf Kämpfe anlegen.</li>
+</ul></section>
+<section class="card"><h2>Verein und Konto</h2><ul>
+<li>Mit einem Konto sicherst du deine Trainings und siehst sie auf mehreren Geräten.</li>
+<li>Du kannst einer Vereinsgruppe per Einladungscode beitreten. Dort gibt es Mitglieder, Rollen, Mannschaften, Ergebnisse und Saisonstatistiken.</li>
+<li>Mannschaftsführer können ihrer Mannschaft Erinnerungen schicken, zum Beispiel zum nächsten Kampf.</li>
+<li>Die App funktioniert auch ohne Konto komplett lokal auf deinem Gerät.</li>
+</ul></section>
+<section class="card"><h2>Gut zu wissen</h2><ul>
+<li>Die App enthält keine Werbung.</li>
+<li>Es gibt eine helle und eine dunkle Darstellung.</li>
+<li>Deine Daten gehören dir. Wie sie verarbeitet werden, steht in der Datenschutzerklärung, und dein Konto kannst du jederzeit löschen.</li>
+</ul></section>
+<div class="list"><a href="datenschutz.html"><b>Datenschutzerklärung</b><span>Wie deine Daten verarbeitet werden</span></a><a href="impressum.html"><b>Impressum</b><span>Anbieter und Kontakt</span></a><a href="konto-loeschen.html"><b>Konto und Daten löschen</b><span>So löschst du dein Konto</span></a></div>
+<p class="muted" style="text-align:center">Kontakt und Support: <a href="mailto:schuetzentrackerr@gmail.com">schuetzentrackerr@gmail.com</a></p>
+<footer>© 2026 Jannik Huckert · <a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></footer>
+</main></body></html>
