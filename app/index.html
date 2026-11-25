@@ -4206,6 +4206,7 @@ svg.facein, svg.faceout { filter: drop-shadow(0 10px 18px rgba(15,26,34,.18)); }
     ['acct', 'Konto', '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/>']];
   var XNAV_VIEWS = { hub: 'hub', sport: 'hub', train: 'hub', home: 'hub', prefs: 'hub', xbat: 'hub', x: 'xme', sb: 'sb', club: 'club', vreg: 'club', acct: 'acct', admin: 'acct' };
   function xNav() {
+    return '';  /* untere Leiste entfernt (Wunsch Jannik); Navigation über die Startseite und die Zurück-Knöpfe */
     var on = XNAV_VIEWS[ui.view]; if (!on || (ui.view === 'sb' && sbUi.draft)) return '';
     return '<nav class="xnav" aria-label="Hauptnavigation">' + XNAV.map(function (n) {
       return '<button type="button" data-act="x-nav" data-to="' + n[0] + '"' + (on === n[0] ? ' class="on" aria-current="page"' : '') + '><svg viewBox="0 0 24 24" aria-hidden="true">' + n[2] + '</svg><span>' + n[1] + '</span></button>';
