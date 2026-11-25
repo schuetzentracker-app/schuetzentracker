@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#17594a">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -357,6 +357,9 @@ fieldset.t1 legend { color: var(--guest); }
 .arow input[type="checkbox"] { width: 22px; height: 22px; margin: 0 auto; accent-color: var(--accent); }
 .arow2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 44px; gap: 8px; align-items: center; }
 select { appearance: auto; }
+/* iPhone-Web-App: kein Vergrößern durch Doppeltippen (schnelles Tippen auf Ringe/Knöpfe), Zwei-Finger-Zoom bleibt möglich */
+html, body, * { touch-action: manipulation; }
+html { -webkit-tap-highlight-color: transparent; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 
 .sheetprev { overflow-x: auto; min-width: 0; background: #fff; border: 1px solid var(--line); border-radius: 6px; }
 
