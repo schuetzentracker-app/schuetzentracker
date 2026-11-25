@@ -1,6 +1,6 @@
 /* SchützenTracker Web-App: Offline-Speicher.
    Bei jedem neuen Upload VERSION erhöhen, dann holen sich alle Geräte die neue Fassung. */
-var VERSION = 'v1.7-12-2';
+var VERSION = 'v1.7-12-10';
 var CACHE = 'schuetzentracker-' + VERSION;
 var CORE = ['./', 'index.html', 'manifest.webmanifest', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png'];
 var EXTRA = ['https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'];  // PDF-Export offline; Fehler hier sind nicht schlimm

@@ -265,6 +265,35 @@ fieldset.t1 legend { color: var(--guest); }
 .step output { min-width: 2ch; text-align: center; font: 700 28px/1 var(--f-display); font-variant-numeric: tabular-nums; }
 .total { font-size: 14px; color: var(--ink-2); }
 
+/* Wettkampfuhr */
+.wkbar { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 8px; margin: 8px 0 0; padding: 8px 8px 8px 12px; border-radius: 14px; }
+.wkbar .wkl { min-width: 0; display: grid; text-align: left; }
+.wkbar small { font: 600 11px/1.3 var(--f-body); opacity: .9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.wkbar b { font: 700 14px/1.3 var(--f-body); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.wkt { font: 800 30px/1 var(--f-display); font-variant-numeric: tabular-nums; }
+.wkb { display: flex; gap: 6px; }
+.wkbar .btn, .wkfull .btn { min-height: 40px; padding: 0 10px; background: rgba(255,255,255,.2); color: inherit; border: 1px solid rgba(255,255,255,.55); }
+.wkbar .btn.primary, .wkfull .btn.primary { background: #fff; color: #14201a; border-color: #fff; }
+.wk-green { background: #1b7a41; color: #fff; }
+.wk-yellow { background: #f0b400; color: #1a1300; }
+.wk-yellow .btn { border-color: rgba(26,19,0,.5); }
+.wk-red { background: #b3261e; color: #fff; }
+.wkfull { position: fixed; inset: 0; z-index: 70; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: calc(20px + env(safe-area-inset-top, 0px)) 16px calc(20px + env(safe-area-inset-bottom, 0px)); text-align: center; }
+.wkfull .wkg { margin: 0; font-weight: 700; opacity: .9; }
+.wkfull h2 { font: 800 26px/1.2 var(--f-display); margin: 0; color: inherit; }
+.wkbig { font: 800 clamp(88px, 30vw, 240px)/1 var(--f-display); font-variant-numeric: tabular-nums; margin: 4px 0 10px; }
+.wkctl { justify-content: center; flex-wrap: wrap; }
+.wkfull .btn { min-height: 52px; padding: 0 20px; font-size: 17px; }
+.wkfull .wksub .btn, .wkfull .wksub .btn.quiet { color: inherit; opacity: .95; min-height: 44px; font-size: 15px; background: transparent; border-color: transparent; text-decoration: underline; text-underline-offset: 3px; }
+.wkchips { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 12px; }
+.wkset .sub { margin: 8px 0 0; }
+@keyframes wkpop { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+.wkpop { animation: wkpop .25s ease-out; }
+@media (prefers-reduced-motion: reduce) { .wkpop { animation: none; } }
+.wkset .chip { min-height: 40px; padding: 6px 12px; }
+.wkset .chip .cn { font-size: 14px; }
+.wkset > .row-inline { margin: 4px 0 6px; }
+
 /* Scoreboard (sticky) */
 .board {
   position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
@@ -2242,7 +2271,7 @@ svg.facein, svg.faceout { filter: drop-shadow(0 10px 18px rgba(15,26,34,.18)); }
       '<div class="grid2"><label class="field"><span>Datum</span><input type="date" id="f-date" value="' + esc(d.date) + '"></label>' +
       '<label class="field"><span>Ort (optional)</span><input type="text" id="f-place" placeholder="z. B. Schützenhaus" value="' + esc(d.place) + '"></label>' +
       (d.training ? '' : '<label class="field"><span>Klasse (optional)</span><input type="text" id="f-klasse" placeholder="z. B. Bezirksliga" value="' + esc(d.klasse || '') + '"></label>') + '</div>' +
-      faceChooser(d) + (d.training ? inputChooser(d) : '') + (d.training ? teamSet(0, 'Schützen', '', true) : teamSet(0, 'Heimmannschaft', 'Heim') + teamSet(1, 'Gastmannschaft', 'Gast')) +
+      faceChooser(d) + (d.training ? inputChooser(d) : '') + clockChooser(d) + (d.training ? teamSet(0, 'Schützen', '', true) : teamSet(0, 'Heimmannschaft', 'Heim') + teamSet(1, 'Gastmannschaft', 'Gast')) +
       '<p class="total">' + per + ' ' + L.as + ' pro Schütze · ' + (per * counts.reduce(function (x, y) { return x + y; }, 0)) + ' ' + L.as + ' insgesamt</p>' +
       (ui.formError ? '<p class="notice">' + esc(ui.formError) + '</p>' : '') +
       '<button type="submit" class="btn primary wide">' + (d.training ? 'Training starten' : 'Kampf starten') + '</button></form></div>';
@@ -2318,6 +2347,211 @@ svg.facein, svg.faceout { filter: drop-shadow(0 10px 18px rgba(15,26,34,.18)); }
       '<p class="muted">Einen ausdruckbaren Zettel gibt es bisher nur für Bogensport.</p>';
   }
 
+  /* ===================== WETTKAMPFUHR =====================
+     Zeiten nach Regelwerk:
+     - Bogen: DSB-Sportordnung Teil 6 (6.3.1 Signale, 6.4.3.1 Halle: 3 Pfeile in 2 Min., 6.5.3.1 Freien: 6 Pfeile in 4 Min.,
+       je 10 s Vorlauf, gelb 30 s vor Ende).
+     - Luftgewehr/Luftpistole: 15 Min. Vorbereitungs- und Probezeit, 40 Schuss in 50 Min. (elektronisch) bzw. 60 Min. (Papier),
+       Ansagen „noch 10 / 5 Minuten“ (DSB-Ansagetext für Schießleiter); andere Schusszahlen im selben Verhältnis.
+     - Sportpistole 25 m: Präzision Serien à 5 Schuss in 5 Min., Duell 7 s rot / 3 s grün je Schuss, 1 Min. Laden, je eine Probeserie. */
+  var wk = null, wkT = null, wkAC = null, wkLock = null;
+  var wkCfg = { bowGroups: 1, elec: true, sound: true, voice: true };
+  try { var wkS = JSON.parse(localStorage.getItem('rundenzettel.wkcfg') || 'null'); if (wkS) Object.keys(wkCfg).forEach(function (k) { if (wkS[k] !== undefined) wkCfg[k] = wkS[k]; }); } catch (e) { /* ignore */ }
+  function wkCfgSave() { try { localStorage.setItem('rundenzettel.wkcfg', JSON.stringify(wkCfg)); } catch (e) { /* ignore */ } }
+  function wkGunMin(n) { return Math.ceil(n * (wkCfg.elec ? 1.25 : 1.5)); }
+  function wkBowSec(A) { return 40 * A; }  /* 120 s für eine Passe mit 3 Pfeilen */
+  function wkFmt(s) { if (wk && wk.secOnly) return String(s); var mm = Math.floor(s / 60), r = s % 60; return mm + ':' + (r < 10 ? '0' : '') + r; }  /* Bogen: nur Sekunden (120) */
+  function wkDur(s) { return s % 60 ? (s >= 60 ? Math.floor(s / 60) + ' Min. ' : '') + (s % 60) + ' s' : (s / 60) + ' Min.'; }
+
+  function wkProgram(m) {
+    var sp = sportOf(m), P = [], E = m.ends, A = m.arrows, i;
+    function ph(o) { P.push(o); }
+    if (sp === 'bogen') {
+      var per = wkBowSec(A), two = wkCfg.bowGroups === 2;
+      for (i = 0; i < E; i++) {
+        var pl = 'Passe ' + (i + 1) + ' von ' + E, g1 = i % 2 ? 'CD' : 'AB', g2 = i % 2 ? 'AB' : 'CD';
+        ph({ t: 'run', g: pl, lab: two ? 'Gruppe ' + g1 + ' an die Linie' : 'An die Schießlinie', sec: 10, col: 'red', sig: 'w2' });
+        ph({ t: 'run', g: pl, lab: two ? 'Schießzeit Gruppe ' + g1 : 'Schießzeit', sec: per, col: 'green', sig: 'w1', yel: 30 });
+        if (two) {
+          ph({ t: 'run', g: pl, lab: 'Wechsel: Gruppe ' + g2 + ' an die Linie', sec: 10, col: 'red', sig: 'w2' });
+          ph({ t: 'run', g: pl, lab: 'Schießzeit Gruppe ' + g2, sec: per, col: 'green', sig: 'w1', yel: 30 });
+        }
+        ph({ t: 'wait', g: pl, lab: i + 1 < E ? 'Pfeile eintragen' : 'Letzte Passe geschossen', col: 'red', sig: 'w3', next: i + 1 < E ? 'Nächste Passe' : '' });
+      }
+    } else if (sp === 'sp') {
+      var half = Math.ceil(E / 2), parts = [['p', 'Präzision', half], ['d', 'Duell', E - half]];
+      parts.forEach(function (pt) {
+        for (var s = 0; s <= pt[2]; s++) {
+          var gl = s ? pt[1] + ' · Serie ' + s + ' von ' + pt[2] : pt[1] + ' · Probeserie', last = pt[0] === 'd' && s === pt[2];
+          ph({ t: 'run', g: gl, lab: 'Laden', sec: 60, col: 'red', say: 'Laden.', sig: 'b1' });
+          if (pt[0] === 'p') ph({ t: 'run', g: gl, lab: 'Schießzeit', sec: 300, col: 'green', say: 'Start.', sig: 'b1', calls: [[60, 'Noch eine Minute']] });
+          else {
+            ph({ t: 'run', g: gl, lab: 'Achtung', sec: 7, col: 'red', say: 'Achtung.' });
+            for (var k = 1; k <= A; k++) {
+              ph({ t: 'run', g: gl, lab: 'Schuss ' + k + ' von ' + A, sec: 3, col: 'green', sig: 'b1' });
+              if (k < A) ph({ t: 'run', g: gl, lab: 'Pause vor Schuss ' + (k + 1), sec: 7, col: 'red' });
+            }
+          }
+          ph({ t: 'wait', g: gl, lab: last ? 'Wettkampf beendet' : (s ? 'Serie beendet, Treffer eintragen' : 'Probeserie beendet'), col: 'red', sig: 'b3', say: 'Stopp.', next: last ? '' : 'Nächste Serie' });
+        }
+      });
+    } else {
+      var n = E * A, min = wkGunMin(n);
+      ph({ t: 'run', g: 'Vorbereitung', lab: 'Vorbereitungs- und Probezeit', sec: 900, col: 'green', sig: 'b1', say: 'Wir beginnen jetzt mit der Vorbereitungs- und Probezeit. Start.', calls: [[300, 'Noch 5 Minuten'], [30, 'Noch 30 Sekunden']] });
+      ph({ t: 'wait', g: 'Vorbereitung', lab: 'Probezeit beendet', col: 'red', sig: 'b3', say: 'Stopp.', next: 'Wettkampf starten' });
+      ph({ t: 'run', g: n + ' Wettkampfschüsse in ' + min + ' Min.', lab: 'Wettkampfzeit', sec: min * 60, col: 'green', sig: 'b1', say: 'Wir beginnen jetzt mit dem Wettkampf. Start.', calls: [[600, 'Noch 10 Minuten'], [300, 'Noch 5 Minuten'], [60, 'Noch eine Minute']], yel: 300 });
+      ph({ t: 'wait', g: n + ' Wettkampfschüsse', lab: 'Wettkampfzeit beendet', col: 'red', sig: 'b3', say: 'Stopp.', next: '' });
+    }
+    return P;
+  }
+
+  /* ---- Signale: Schiedsrichterpfiff (lang beim Bogen, kurz bei Gewehr/Pistole), Sprachansage, Vibration ---- */
+  function wkUnlock() {
+    try { var AC = window.AudioContext || window.webkitAudioContext; if (!wkAC && AC) wkAC = new AC(); if (wkAC && wkAC.state === 'suspended') wkAC.resume(); } catch (e) { /* ohne Ton */ }
+    try { if (wkCfg.voice && window.speechSynthesis) speechSynthesis.speak(new SpeechSynthesisUtterance(' ')); } catch (e) { /* ohne Sprache */ }
+  }
+  /* Schiedsrichterpfeife: hoher Ton um 3,2 kHz, die Kugel in der Pfeife erzeugt das schnelle Trillern; dazu etwas Luftrauschen */
+  function wkWhistle(t0, dur) {
+    var AC = wkAC, out = AC.createGain(), bp = AC.createBiquadFilter(), tr = AC.createOscillator(), trF = AC.createGain(), trA = AC.createGain(), am = AC.createGain();
+    out.gain.setValueAtTime(0.0001, t0); out.gain.exponentialRampToValueAtTime(0.5, t0 + 0.015);
+    out.gain.setValueAtTime(0.5, t0 + dur - 0.04); out.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    am.gain.value = 0.75; tr.type = 'triangle'; tr.frequency.value = 34; trF.gain.value = 140; trA.gain.value = 0.25;
+    tr.connect(trF); tr.connect(trA); trA.connect(am.gain);
+    am.connect(out); out.connect(AC.destination);
+    [[3150, 0.5], [3290, 0.32]].forEach(function (v) {
+      var o = AC.createOscillator(), g = AC.createGain();
+      o.type = 'sine'; o.frequency.setValueAtTime(v[0] * 0.97, t0); o.frequency.exponentialRampToValueAtTime(v[0], t0 + 0.03);
+      trF.connect(o.frequency); g.gain.value = v[1]; o.connect(g); g.connect(am); o.start(t0); o.stop(t0 + dur + 0.02);
+    });
+    var len = Math.ceil(AC.sampleRate * (dur + 0.05)), nb = AC.createBuffer(1, len, AC.sampleRate), d = nb.getChannelData(0);
+    for (var i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+    var ns = AC.createBufferSource(), ng = AC.createGain(); ns.buffer = nb;
+    bp.type = 'bandpass'; bp.frequency.value = 3200; bp.Q.value = 3; ng.gain.value = 0.12;
+    ns.connect(bp); bp.connect(ng); ng.connect(am); ns.start(t0); ns.stop(t0 + dur + 0.02);
+    tr.start(t0); tr.stop(t0 + dur + 0.02);
+  }
+  function wkSig(s) {
+    var n = +s.slice(1), long = s.charAt(0) === 'w', pat = [], d = long ? 0.55 : 0.3, gap = long ? 0.22 : 0.15;
+    for (var i = 0; i < n; i++) pat.push(Math.round(d * 1000), Math.round(gap * 1000));
+    try { if (navigator.vibrate) navigator.vibrate(pat.slice(0, -1)); } catch (e) { /* ignore */ }
+    if (!wkCfg.sound || !wkAC) return;
+    try { var t = wkAC.currentTime + 0.05; for (i = 0; i < n; i++) { wkWhistle(t, d); t += d + gap; } } catch (e) { /* ignore */ }
+  }
+  function wkSay(txt) { if (!wkCfg.voice || !txt) return; try { var u = new SpeechSynthesisUtterance(txt); u.lang = 'de-DE'; speechSynthesis.cancel(); speechSynthesis.speak(u); } catch (e) { /* ignore */ } }
+  function wkWake(on) {
+    try {
+      if (on && !wkLock && navigator.wakeLock) navigator.wakeLock.request('screen').then(function (l) { wkLock = l; l.addEventListener('release', function () { wkLock = null; }); }, noop);
+      else if (!on && wkLock) { wkLock.release(); wkLock = null; }
+    } catch (e) { /* ignore */ }
+  }
+  document.addEventListener('visibilitychange', function () { if (wk && !document.hidden) { wkWake(true); wkTick(); } });
+
+  /* ---- Ablauf ---- */
+  function wkPrepare(m) { wk = { mid: m.id, secOnly: sportOf(m) === 'bogen', P: wkProgram(m), i: -1, endAt: 0, left: 0, paused: false, fired: {} }; clearInterval(wkT); wkT = setInterval(wkTick, 200); wkWake(true); ui.wkFull = true; }
+  function wkStart(m) { wkUnlock(); wkPrepare(m); wkGo(0); }
+  function wkEndNow() { for (var j = wk.i + 1; j < wk.P.length; j++) if (wk.P[j].t === 'wait') { wkGo(j); return; } wkStop(); }
+  function wkStop() { wk = null; clearInterval(wkT); wkWake(false); ui.wkFull = false; try { speechSynthesis.cancel(); } catch (e) { /* ignore */ } render(); }
+  function wkGo(i) {
+    var p = wk.P[i]; wk.i = i; wk.fired = {}; wk.paused = false;
+    if (!p) { wkStop(); return; }
+    if (p.sig) wkSig(p.sig);
+    if (p.say) wkSay(p.say);
+    if (p.t === 'run') wk.endAt = Date.now() + p.sec * 1000;
+    // Während die Zeit läuft nur die Uhr; ist sie um, erscheinen die Eingabefelder
+    if (p.t === 'wait') ui.wkFull = false;
+    else if (i === 0 || (wk.P[i - 1] && wk.P[i - 1].t === 'wait')) ui.wkFull = true;
+    wkRefresh();
+  }
+  function wkLeft() { var p = wk && wk.P[wk.i]; if (!p || p.t !== 'run') return 0; return wk.paused ? wk.left : Math.max(0, wk.endAt - Date.now()); }
+  function wkState() {
+    if (wk && wk.i < 0) {
+      var g0 = wk.P.filter(function (x) { return x.col === 'green' && x.t === 'run'; })[0];
+      return { p: { t: 'ready', g: wk.P[0].g, lab: 'Bereit? Tippe auf Start.', sec: g0 ? g0.sec : 0 }, s: g0 ? g0.sec : 0, col: 'red' };
+    }
+    var p = wk && wk.P[wk.i]; if (!p) return null;
+    var s = Math.ceil(wkLeft() / 1000);
+    return { p: p, s: s, col: p.t === 'run' && p.yel && p.sec > p.yel && s <= p.yel ? 'yellow' : p.col };
+  }
+  function wkTick() {
+    if (!wk) { clearInterval(wkT); return; }
+    var p = wk.P[wk.i]; if (!p || p.t !== 'run' || wk.paused) return;
+    var ms = wkLeft(), s = Math.ceil(ms / 1000);
+    // Bei langer Pause im Hintergrund mehrere Abschnitte nachholen
+    while (ms <= 0 && p && p.t === 'run') { var over = Date.now() - wk.endAt; wkGo(wk.i + 1); if (!wk) return; p = wk.P[wk.i]; if (p && p.t === 'run' && over > 1000) { wk.endAt -= over; ms = wkLeft(); } else return; }
+    (p.calls || []).forEach(function (c) { if (p.sec > c[0] && s <= c[0] && !wk.fired['c' + c[0]]) { wk.fired['c' + c[0]] = 1; if (s > c[0] - 3) { wkSay(c[1]); wkSig('b1'); } } });
+    if (p.yel && p.sec > p.yel && s <= p.yel && !wk.fired.y) { wk.fired.y = 1; wkRefresh(); return; }
+    [].forEach.call(app.querySelectorAll('[data-wk-time]'), function (el) { var t = wkFmt(s); if (el.textContent !== t) el.textContent = t; });
+  }
+  function wkRefresh() {
+    var m = curMatch(), b = app.querySelector('.wkbar'), f = app.querySelector('.wkfull');
+    if (ui.view !== 'match' || !m) return;
+    if (!b && !f) { render(); return; }
+    if (b) b.outerHTML = wkBar(m) || '<span hidden></span>';
+    if (f) f.outerHTML = ui.wkFull ? wkFull(m) : '';
+    else if (ui.wkFull) render();
+  }
+
+  /* ---- Anzeige ---- */
+  function wkCtl(S) {
+    if (S.p.t === 'ready') return '<button class="btn primary" data-act="wk-begin">▶ Start</button>';
+    if (S.p.t === 'run') return '<button class="btn" data-act="wk-pause">' + (wk.paused ? '▶ Weiter' : '⏸ Stopp') + '</button>';
+    if (S.p.next) return '<button class="btn primary" data-act="wk-next">' + esc(S.p.next) + ' ▶</button>';
+    return '<button class="btn" data-act="wk-stop">Fertig</button>';
+  }
+  function wkBar(m) {
+    if (!wk || wk.mid !== m.id) return '';
+    var S = wkState(); if (!S) return '';
+    return '<div class="wkbar wk-' + S.col + '" role="timer"><div class="wkl"><small>' + esc(S.p.g) + (wk.paused ? ' · pausiert' : '') + '</small><b>' + esc(S.p.lab) + '</b></div>' +
+      (S.p.t === 'run' ? '<span class="wkt" data-wk-time>' + wkFmt(S.s) + '</span>' : '') +
+      '<div class="wkb">' + wkCtl(S) + '<button class="btn" data-act="wk-full" aria-label="Uhr groß anzeigen">⤢</button></div></div>';
+  }
+  function wkFull(m) {
+    if (!wk || wk.mid !== m.id || !ui.wkFull) return '';
+    var S = wkState(); if (!S) return '';
+    return '<div class="wkfull wk-' + S.col + '" role="dialog" aria-modal="true" aria-label="Wettkampfuhr"><p class="wkg">' + esc(S.p.g) + (wk.paused ? ' · pausiert' : '') + '</p><h2>' + esc(S.p.lab) + '</h2>' +
+      '<p class="wkbig"' + (S.p.t === 'run' ? ' data-wk-time>' + wkFmt(S.s) : '>' + (S.p.t === 'ready' ? wkFmt(S.s) : S.p.next ? '■' : '✓')) + '</p>' +
+      '<div class="row-inline wkctl">' + wkCtl(S) + (S.p.t === 'run' ? '<button class="btn" data-act="wk-endnow">' + (sportOf(m) === 'bogen' ? 'Pass beenden' : sportOf(m) === 'sp' ? 'Serie beenden' : 'Zeit beenden') + ' ⏭</button>' : '') + '</div>' +
+      '<div class="row-inline wkctl wksub"><button class="btn quiet" data-act="wk-small">Zur Eingabe</button><button class="btn quiet" data-act="wk-stop">Uhr beenden</button></div></div>';
+  }
+  function wkOpen(m, o) { var v = ui.wkOpen && ui.wkOpen[m.id]; return !!v; }
+  function wkChip(k, v, label) { var on = wkCfg[k] === v; return '<button class="chip' + (on ? ' sel' : '') + '" data-act="wk-opt" data-k="' + k + '" data-v="' + (v === true ? 'on' : v === false ? 'off' : v) + '" aria-pressed="' + on + '"><span class="cn">' + label + '</span></button>'; }
+  function wkSetup(m, o) {
+    if (wk && wk.mid === m.id) return '';
+    if (!wkOpen(m, o)) return '';
+    var sp = sportOf(m), E = m.ends, A = m.arrows, h = '<section class="panel wkset"><h3>⏱ Wettkampfuhr</h3>', go = '<div class="row-inline"><button class="btn primary" data-act="wk-start">Uhr starten</button><button class="btn quiet" data-act="wk-setup">Ohne Uhr</button></div>';
+    if (sp === 'bogen') {
+      var per = wkBowSec(A);
+      h += '<p class="muted">Je Passe: 10 s an die Linie (2 Pfiffe, rot), dann ' + per + ' Sekunden Schießzeit für ' + A + ' Pfeile (1 Pfiff, grün), gelb in den letzten 30 s, Ende mit 3 Pfiffen. Danach Pfeile holen und mit „Nächste Passe“ weiter.</p>' + go +
+        '<p class="sub">Gruppen</p><div class="wkchips">' + wkChip('bowGroups', 1, 'Alle zusammen') + wkChip('bowGroups', 2, 'Zwei Gruppen (AB/CD)') + '</div>';
+    } else if (sp === 'sp') {
+      var hf = Math.ceil(E / 2);
+      h += '<p class="muted">Präzision: Probeserie und ' + hf + ' Serien à ' + A + ' Schuss, je 1 Min. Laden und 5 Min. Schießzeit. Duell: Probeserie und ' + (E - hf) + ' Serien, je Schuss 7 s rot und 3 s grün. Nach jeder Serie geht es mit „Nächste Serie“ weiter.</p>' + go;
+    } else {
+      var n = E * A, mn = wkGunMin(n);
+      h += '<p class="muted">15 Min. Vorbereitungs- und Probezeit, danach ' + n + ' Wettkampfschüsse in ' + mn + ' Min. mit Ansagen „noch 10 / 5 / 1 Minute“.' + (n === 40 || n === 60 ? '' : ' Die Zeit für ' + n + ' Schuss ist im selben Verhältnis wie bei 40 Schuss berechnet.') + '</p>' + go +
+        '<p class="sub">Anlage</p><div class="wkchips">' + wkChip('elec', true, 'Elektronisch') + wkChip('elec', false, 'Papierscheiben') + '</div>';
+    }
+    h += '<p class="sub">Signale</p><div class="wkchips">' + wkChip('sound', true, '🔊 Ton an') + wkChip('sound', false, '🔇 Ton aus') + (sp === 'bogen' ? '' : wkChip('voice', true, 'Ansagen an') + wkChip('voice', false, 'Ansagen aus')) + '</div>' +
+      '<p class="muted"><small>Nach DSB-Sportordnung (Bogen Teil 6, Luftdruck nach Ansagetext für Schießleiter) bzw. ISSF-Regeln Pistole 25 m. Im Wettkampf gilt immer die Ansage der Schießleitung.</small></p></section>';
+    return h;
+  }
+  app.addEventListener('click', function (e) {
+    var el = e.target.closest('[data-act]'); if (!el) return;
+    var a = el.dataset.act; if (a.indexOf('wk-') !== 0) return;
+    var m = curMatch(); if (!m) return;
+    if (a === 'wk-setup') { ui.wkOpen = ui.wkOpen || {}; ui.wkOpen[m.id] = !wkOpen(m, outcome(m)); render(); return; }
+    if (a === 'wk-opt') { var v = el.dataset.v; wkCfg[el.dataset.k] = v === 'on' ? true : v === 'off' ? false : isNaN(+v) ? v : +v; wkCfgSave(); render(); return; }
+    if (a === 'wk-start') { ui.wkOpen = ui.wkOpen || {}; ui.wkOpen[m.id] = false; wkStart(m); return; }
+    if (!wk) return;
+    if (a === 'wk-begin') { wkUnlock(); wkGo(0); return; }
+    if (a === 'wk-endnow') { wkUnlock(); wkEndNow(); return; }
+    if (a === 'wk-pause') { wkUnlock(); if (wk.paused) { wk.endAt = Date.now() + wk.left; wk.paused = false; } else { wk.left = wkLeft(); wk.paused = true; } wkRefresh(); return; }
+    if (a === 'wk-next' || a === 'wk-skip') { wkUnlock(); wkGo(wk.i + 1); return; }
+    if (a === 'wk-full') { ui.wkFull = true; render(); return; }
+    if (a === 'wk-small') { ui.wkFull = false; render(); return; }
+    if (a === 'wk-stop') { wkStop(); return; }
+  });
+
   function viewMatch() {
     var m = curMatch(), o = outcome(m), A = m.arrows, cur = m.cur;
     var ai = archerInfo(m, cur.a), st = stats(m, cur.a), arr = m.scores[cur.a], ends = endSums(m, arr);
@@ -2337,6 +2571,7 @@ svg.facein, svg.faceout { filter: drop-shadow(0 10px 18px rgba(15,26,34,.18)); }
         '<p class="bstat">' + (o.complete ? 'Beendet' : 'Läuft') + ' · Ø ' + avg + ' pro ' + lab(m).a + ' · ' + o.f + ' von ' + o.tot + ' ' + lab(m).ad + '</p>' +
         '<div class="prog"><i style="width:' + pct + '%"></i></div></section>';
     }
+    var wkb = wkBar(m); if (wkb) board = board.replace(/<\/section>$/, wkb + '</section>');
     var teams = '<div class="teams">' + m.teams.map(function (t, ti) {
       return '<div class="tgroup t' + ti + '">' + (m.training ? '' : '<h3>' + esc(t.name) + '</h3>') + '<div class="chips">' + t.archers.map(function (a) {
         var sel = a.id === cur.a;
@@ -2367,8 +2602,10 @@ svg.facein, svg.faceout { filter: drop-shadow(0 10px 18px rgba(15,26,34,.18)); }
       }).join('') +
       '<button class="key del" data-act="del" aria-label="Letzten ' + lab(m).a + ' löschen">⌫ Löschen</button></div></div></div>';
 
+    var wkOn = !!wk && wk.mid === m.id;
     var actions = '<div class="actions"><button class="btn" data-act="result" aria-expanded="' + ui.result + '">Ergebnis</button>' +
-      '<button class="btn" data-act="settings" aria-expanded="' + ui.settings + '">Einstellungen</button></div>';
+      '<button class="btn" data-act="settings" aria-expanded="' + ui.settings + '">Einstellungen</button>' +
+      '<button class="btn" data-act="' + (wkOn ? 'wk-stop' : 'wk-setup') + '"' + (wkOn ? '' : ' aria-expanded="' + wkOpen(m, o) + '"') + '>' + (wkOn ? '⏱ Uhr beenden' : '⏱ Uhr') + '</button></div>';
 
     var resultPanel = ui.result
       ? '<section class="panel"><h3>' + (isGun(m) || m.training ? 'Ergebnis' : 'Rundenkampfzettel') + '</h3>' +
@@ -2417,7 +2654,7 @@ svg.facein, svg.faceout { filter: drop-shadow(0 10px 18px rgba(15,26,34,.18)); }
     else if (ui.padOff) pad = '<button type="button" class="padopen" data-act="padshow" aria-label="Tastatur öffnen">Tastatur ▴</button>';
     return '<div class="wrap' + (m.input === 'face' ? '' : (ui.padOff ? ' pad-off' : ' has-pad')) + '"><div class="topbar"><button class="btn quiet" data-act="home">' + (m.training ? '‹ Alle Trainings' : '‹ Alle Kämpfe') + '</button>' +
       '<span class="meta">' + esc(fmtDate(m.date)) + (m.place ? ' · ' + esc(m.place) : '') + ' · ' + esc(faceOf(m).label) + (m.example ? ' · Beispiel' : '') + '</span></div>' +
-      board + (m.input === 'face' ? facePanel(m, nowText) : '') + teams + sheet + actions + resultPanel + settingsPanel + '</div>' + pad +
+      board + wkSetup(m, o) + (m.input === 'face' ? facePanel(m, nowText) : '') + teams + sheet + actions + resultPanel + settingsPanel + '</div>' + pad + wkFull(m) +
       (ui.leave ? '<div class="scrim"><div class="dialog" role="alertdialog" aria-modal="true" aria-labelledby="lv-t"><h3 id="lv-t">Kampf verlassen?</h3>' +
         '<p class="muted">Möchtest du wirklich zurück zu allen Kämpfen? Deine Eingaben sind gespeichert.</p>' +
         '<div class="row-inline"><button class="btn primary" data-act="leave-yes">Ja, zurück</button><button class="btn" data-act="leave-no" autofocus>Nein, bleiben</button></div></div></div>' : '');
@@ -2784,6 +3021,20 @@ svg.facein, svg.faceout { filter: drop-shadow(0 10px 18px rgba(15,26,34,.18)); }
     sv.addEventListener('pointerup', function (e) { up(e, false); });
     sv.addEventListener('pointercancel', function (e) { up(e, true); });
     sv.addEventListener('wheel', function (e) { e.preventDefault(); ui.zoom.z *= e.deltaY < 0 ? 1.2 : 1 / 1.2; applyVB(); }, { passive: false });
+  }
+  function clockChooser(d) {
+    var on = !!d.clock, sp = d.sport || 'bogen', f = FACES[d.face] || FACES.auflage;
+    function radios(name, cur, opts) {
+      return opts.map(function (o) { var sel = cur === o[0]; return '<label class="opt' + (sel ? ' sel' : '') + '"><input type="radio" name="' + name + '" value="' + o[0] + '"' + (sel ? ' checked' : '') + '><b>' + o[1] + '</b><small>' + o[2] + '</small></label>'; }).join('');
+    }
+    var h = '<div class="field" role="radiogroup" aria-labelledby="ck-l"><span id="ck-l">Wettkampfuhr</span><div class="faces">' +
+      radios('clock', on ? 'on' : 'off', [['off', 'Ohne Uhr', 'Ergebnisse jederzeit eintragen'], ['on', 'Mit Uhr', sp === 'bogen' ? '120 s je Passe, mit Pfiffen' : sp === 'sp' ? 'Präzision und Duell nach Regel' : '15 Min. Probe, dann Wettkampfzeit']]) + '</div></div>';
+    if (!on) return h;
+    if (sp === 'bogen') h += '<div class="field wkpop" role="radiogroup" aria-labelledby="ck-g"><span id="ck-g">Gruppen</span><div class="faces">' +
+      radios('wkgroups', String(wkCfg.bowGroups), [['1', 'Eine Gruppe', 'Alle schießen gleichzeitig'], ['2', 'Zwei Gruppen', 'AB und CD im Wechsel']]) + '</div></div>';
+    else if (sp !== 'sp') h += '<div class="field wkpop" role="radiogroup" aria-labelledby="ck-e"><span id="ck-e">Anlage</span><div class="faces">' +
+      radios('wkelec', wkCfg.elec ? 'e' : 'p', [['e', 'Elektronisch', wkGunMin(f.ends * f.arrows) + ' Min. Wettkampfzeit'], ['p', 'Papierscheiben', Math.ceil(f.ends * f.arrows * 1.5) + ' Min. Wettkampfzeit']]) + '</div></div>';
+    return h + '<p class="muted wkpop">Während die Zeit läuft, siehst du nur die Uhr. Ist sie um, trägst du die Ergebnisse ein und tippst auf „' + (sp === 'bogen' ? 'Nächste Passe' : sp === 'sp' ? 'Nächste Serie' : 'Weiter') + '“.</p>';
   }
   function inputChooser(d) {
     var cur = d.input || 'keys';
@@ -4501,6 +4752,9 @@ svg.facein, svg.faceout { filter: drop-shadow(0 10px 18px rgba(15,26,34,.18)); }
     }
     if (ui.view === 'new' && t.name === 'input') { syncDraft(); ui.draft.input = t.value; render(); return; }
     if (ui.view === 'new' && t.name === 'face') { syncDraft(); ui.draft.face = t.value; render(); return; }
+    if (ui.view === 'new' && t.name === 'clock') { syncDraft(); ui.draft.clock = t.value === 'on'; render(); return; }
+    if (ui.view === 'new' && t.name === 'wkgroups') { syncDraft(); wkCfg.bowGroups = +t.value; wkCfgSave(); render(); return; }
+    if (ui.view === 'new' && t.name === 'wkelec') { syncDraft(); wkCfg.elec = t.value === 'e'; wkCfgSave(); render(); return; }
     var m = curMatch(); if (!m) return;
     if (t.id === 'opt-sort') { m.sort = t.checked; save(); }
     else if (t.id === 'opt-rotate') { m.rotate = t.checked; save(); }
@@ -4560,7 +4814,9 @@ svg.facein, svg.faceout { filter: drop-shadow(0 10px 18px rgba(15,26,34,.18)); }
     if (!ui.draft.training) ui.draft.clubId = autoClub();
     var m = makeMatch(ui.draft);
     store.matches.push(m); store.openId = m.id; save();
-    ui.matchId = m.id; ui.view = 'match'; ui.settings = ui.confirm = ui.result = false; ui.draft = null;
+    ui.matchId = m.id; ui.view = 'match'; ui.settings = ui.confirm = ui.result = false;
+    if (ui.draft.clock) { wkUnlock(); wkPrepare(m); } else if (wk) { wk = null; clearInterval(wkT); wkWake(false); ui.wkFull = false; }
+    ui.draft = null;
     render({ top: true });
   });
 
