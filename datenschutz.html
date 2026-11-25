@@ -3,15 +3,15 @@
 <title>Datenschutz – SchützenTracker</title><link rel="icon" href="logo.png"><link rel="stylesheet" href="style.css">
 </head><body><main>
 <header class="brand"><img class="logo" src="logo.png" alt="" width="76" height="76"><h1>SchützenTracker</h1><p>Training und Rundenkampf im Schießsport</p></header>
-<nav aria-label="Seiten"><a href="./">Start</a><a href="datenschutz" class="on" aria-current="page">Datenschutz</a><a href="impressum">Impressum</a><a href="konto-loeschen">Konto löschen</a></nav>
-<h2 class="pt">Datenschutz</h2><p class="sub">Stand: 9. November 2026</p>
+<nav aria-label="Seiten"><a href="./">Start</a><a href="iphone">iPhone</a><a href="datenschutz" class="on" aria-current="page">Datenschutz</a><a href="impressum">Impressum</a><a href="konto-loeschen">Konto löschen</a></nav>
+<h2 class="pt">Datenschutz</h2><p class="sub">Stand: 15. November 2026</p>
 <section class="card"><h2>1. Verantwortlicher</h2>
 <p>Verantwortlich für die Datenverarbeitung in dieser App ist:</p>
 <p>Jannik Huckert<br>E-Mail: <a href="mailto:support@schuetzentracker.de">support@schuetzentracker.de</a></p></section>
 <section class="card"><h2>2. Überblick: Was die App macht</h2>
 <p>SchützenTracker ist eine App zum Erfassen von Trainings und Rundenkämpfen im Schießsport (Bogen, Luftgewehr, Sportpistole, Luftpistole). Du kannst die App ohne Konto nutzen. Dann bleiben alle Daten ausschließlich auf deinem Gerät. Mit einem Konto kannst du außerdem Vereinsgruppen beitreten und Daten mit dieser Gruppe teilen. Die Vereinsgruppen legen die Nutzer selbst an. Betreiber der App ist ausschließlich der oben genannte Verantwortliche, ein Sportverein ist nicht beteiligt.</p></section>
 <section class="card"><h2>3. Nutzung ohne Konto (nur lokal)</h2>
-<p>Ohne Konto speichert die App deine Trainings, Rundenkämpfe, Mannschaften und Einstellungen im lokalen Speicher deines Geräts. Diese Daten werden nicht an uns oder Dritte übertragen. Löschst du die App oder die Browserdaten, sind sie weg.</p><p>Das digitale Schießbuch (Termine, Waffen, Schusszahlen, Namen der Aufsicht) wird ausschließlich lokal auf deinem Gerät gespeichert, auch wenn du ein Konto hast. Es wird nicht an uns oder Dritte übertragen. Die PDF-Datei erzeugt die App auf deinem Gerät.</p><p>Vereinsanfrage: Über „Verein registrieren“ kann ein Verein auch ohne Konto eine Anfrage senden. Dabei speichern wir Vereinsname, Webseite (optional), Disziplinen und die allgemeine Vereins-E-Mail in unserer Datenbank (Supabase, Rechenzentrum Frankfurt), um den Verein zu prüfen und den Einladungslink zu senden. Nur App-Admins sehen diese Angaben. Wir löschen sie, sobald die Anfrage bearbeitet und nicht mehr nötig ist.</p></section>
+<p>Ohne Konto speichert die App deine Trainings, Rundenkämpfe, Mannschaften und Einstellungen im lokalen Speicher deines Geräts. Diese Daten werden nicht an uns oder Dritte übertragen. Löschst du die App oder die Browserdaten, sind sie weg. Das gilt auch für die Web-App auf dem Home-Bildschirm: Entfernst du sie, werden ihre lokalen Daten gelöscht.</p><p>Das digitale Schießbuch (Termine, Waffen, Schusszahlen, Namen der Aufsicht) wird ausschließlich lokal auf deinem Gerät gespeichert, auch wenn du ein Konto hast. Es wird nicht an uns oder Dritte übertragen. Die PDF-Datei erzeugt die App auf deinem Gerät.</p><p>Vereinsanfrage: Über „Verein registrieren“ kann ein angemeldeter Nutzer eine Anfrage für einen Verein senden. Dabei speichern wir Vereinsname, Webseite (optional), Disziplinen, die allgemeine Vereins-E-Mail und das Konto, von dem die Anfrage kommt, in unserer Datenbank (Supabase, Rechenzentrum Frankfurt), um den Verein zu prüfen und den Einladungslink zu senden. Nur App-Admins und du selbst sehen diese Angaben. Rückfragen zur Anfrage laufen über einen Chat in der App; die Nachrichten speichern wir zusammen mit der Anfrage und löschen sie mit ihr. Wir löschen sie, sobald die Anfrage bearbeitet und nicht mehr nötig ist.</p></section>
 <section class="card"><h2>4. Nutzung mit Konto</h2>
 <h3>4.1 Registrierung und Anmeldung</h3>
 <p>Bei der Registrierung verarbeiten wir Benutzername, Anzeigename, E-Mail-Adresse und Passwort. Das Passwort wird nicht im Klartext gespeichert, sondern nur als gesicherter Hash. Zusätzlich speichern wir technische Daten wie den Zeitpunkt der Registrierung und der letzten Anmeldung.</p>
@@ -29,14 +29,25 @@
 <li>Rundenkämpfe und deren Ergebnisse (Namen, Ringzahlen, Unterschriften auf dem Rundenkampfzettel),</li>
 <li>Vereinsergebnisse und Saisonstatistiken,</li>
 <li>Erinnerungen, die ein Mannschaftsführer an seine Mannschaft schickt (Nachricht, Datum, Ort, Empfängernamen),</li>
-<li>Einladungscodes, die ein Vereins-Admin erzeugt.</li>
+<li>Einladungscodes, die ein Vereins-Admin erzeugt,</li>
+<li>Vereinstermine (Titel, Art, Datum, Uhrzeit, Ort) und deine Zu- oder Absage dazu,</li>
+<li>Vereinsnachrichten, die ein Vereins-Admin schreibt (Text, Name des Absenders, Zeitpunkt),</li>
+<li>Vereinsligen, die ein Mannschaftsführer anlegt (Name, beteiligte Mannschaften, Begegnungen und Ergebnisse).</li>
 </ul>
-<p>Diese Daten sind für Mitglieder der jeweiligen Gruppe sichtbar. Vereins-Admins sehen zusätzlich die Mitgliederliste und können Rollen und Mannschaften verwalten. Eine Erinnerung sehen nur ihr Absender und die in der Mannschaft eingetragenen Schützen.</p>
+<p>Diese Daten sind für Mitglieder der jeweiligen Gruppe sichtbar. Vereins-Admins sehen zusätzlich die Mitgliederliste und können Rollen und Mannschaften verwalten. Eine Erinnerung sehen nur ihr Absender und die in der Mannschaft eingetragenen Schützen. Termine, Zu- und Absagen, Nachrichten und Ligen sehen alle Mitglieder des Vereins. Termine sowie Nachrichten legen nur Vereins-Admins an, Ligen nur Mannschaftsführer.</p>
 <p>Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO (Nutzung der Vereinsfunktionen) und Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse der Nutzer einer Gruppe an der gemeinsamen Organisation ihres Rundenkampfbetriebs).</p>
 
 <h3>4.4 Statistik mit der Gruppe teilen (freiwillig)</h3>
-<p>Du kannst entscheiden, deine Trainingsstatistik mit deiner Gruppe zu teilen. Dann speichern wir eine Zusammenfassung deiner Statistik (zum Beispiel Durchschnittswerte), die Mitglieder der Gruppe sehen können. Du kannst das Teilen jederzeit beenden. Dabei wird die geteilte Statistik gelöscht.</p>
-<p>Rechtsgrundlage: Einwilligung, Art. 6 Abs. 1 lit. a DSGVO.</p></section>
+<p>Du kannst entscheiden, deine Trainingsstatistik mit deiner Gruppe zu teilen. Dann speichern wir eine Zusammenfassung deiner Statistik (zum Beispiel Durchschnittswerte), die Mitglieder der Gruppe sehen können. Zusätzlich speichern wir dein bestes Training der laufenden Woche und deine Ringe im laufenden Monat. Damit funktionieren das „Vereins-Duell der Woche“ und die „Team-Challenge“: Dein Duell-Gegner und die anderen teilenden Mitglieder sehen diese Werte. Du kannst das Teilen jederzeit beenden. Dabei wird die geteilte Statistik gelöscht.</p>
+<p>Rechtsgrundlage: Einwilligung, Art. 6 Abs. 1 lit. a DSGVO.</p>
+
+<h3>4.5 Live-Battle</h3>
+<p>Startest du angemeldet ein Battle, speichern wir den aktuellen Stand (Titel, Disziplin, eingegebene Teilnehmernamen und Ergebnisse) unter einem zufälligen 6-stelligen Code. Jeder, der diesen Code eingibt, kann den Stand ansehen, auch ohne Konto. Gib den Code daher nur an Personen weiter, die zuschauen sollen. Beim Beenden oder Abbrechen des Battles löschen wir den Eintrag. Nicht beendete Battles sind nach zwei Tagen nicht mehr abrufbar.</p>
+<p>Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO.</p>
+
+<h3>4.6 Sicherung deiner Extras</h3>
+<p>Mit Konto sichern wir deine persönlichen Extras (Ziele, Trainingsnotizen, Sterne der Tages-Challenge, Battle-Verlauf, Farbthema und ähnliche Einstellungen) in deinem Konto, damit sie auf all deinen Geräten verfügbar sind. Nur du kannst diese Daten sehen.</p>
+<p>Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO.</p></section>
 <section class="card"><h2>5. Foto-Auswertung der Scheibe</h2>
 <p>Mit der Kamera- oder Fotofunktion kannst du ein Foto deiner Scheibe auswerten lassen. Die Auswertung findet vollständig auf deinem Gerät statt. Das Foto wird nicht hochgeladen, nicht dauerhaft gespeichert und nach der Auswertung sofort verworfen. Nur die erkannten Trefferpositionen werden wie bei einer manuellen Eingabe gespeichert. Die App benötigt dafür Zugriff auf die Kamera beziehungsweise das ausgewählte Foto. Diesen Zugriff kannst du in den Geräteeinstellungen widerrufen.</p></section>
 <section class="card"><h2>6. PDF-Export</h2>
@@ -44,7 +55,7 @@
 <section class="card"><h2>7. Hosting und Dienstleister</h2>
 <p>Für Konto, Anmeldung und Datenspeicherung nutzen wir die Plattform Supabase (Supabase, Inc., 970 Toa Payoh North #07-04, Singapore 318992). Mit dem Anbieter besteht ein Vertrag zur Auftragsverarbeitung nach Art. 28 DSGVO. Die Daten werden auf Servern in Frankfurt am Main (Deutschland, EU) gespeichert. Soweit Daten in ein Drittland übermittelt werden, geschieht dies auf Grundlage von Standardvertragsklauseln der EU-Kommission.</p></section>
 <section class="card"><h2>8. Schriften und Programmbibliotheken</h2>
-<p>Nur in der Web-Version der App (im Browser) werden zur Darstellung und für den PDF-Export Schriften und Programmbibliotheken von externen Servern (Google Fonts, Cloudflare/cdnjs). Dabei wird deine IP-Adresse an diese Anbieter übertragen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (einheitliche, sichere Darstellung der App). Die Apps für Android und iOS laden keine Schriften oder Programmbibliotheken von fremden Servern nach und verbinden sich nur mit dem unter Punkt 7 genannten Dienst.</p></section>
+<p>Nur in der Web-Version der App (im Browser) werden zur Darstellung und für den PDF-Export Schriften und Programmbibliotheken von externen Servern (Google Fonts, Cloudflare/cdnjs). Dabei wird deine IP-Adresse an diese Anbieter übertragen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (einheitliche, sichere Darstellung der App). Die Web-App auf unserer Webseite (schuetzentracker.de/app, zum Beispiel auf dem iPhone über „Zum Home-Bildschirm“) lädt keine Google-Schriften; sie lädt nur für den PDF-Export die Bibliothek jsPDF von Cloudflare/cdnjs und speichert die App-Dateien für die Offline-Nutzung im Speicher deines Browsers. Die Apps für Android und iOS laden keine Schriften oder Programmbibliotheken von fremden Servern nach und verbinden sich nur mit dem unter Punkt 7 genannten Dienst.</p></section>
 <section class="card"><h2>9. Cookies, Tracking, Werbung</h2>
 <p>Die App setzt keine Tracking-Dienste und keine Werbung ein und gibt keine Daten zu Werbezwecken weiter. Die App nutzt den lokalen Speicher deines Geräts, um Einstellungen, Anmeldung und deine Daten zu speichern. Das ist technisch erforderlich.</p></section>
 <section class="card"><h2>10. Speicherdauer und Löschung</h2>
