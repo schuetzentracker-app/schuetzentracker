@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Auf dem iPhone installieren – SchützenTracker</title><meta name="description" content="Schritt für Schritt: SchützenTracker über Safari auf den Home-Bildschirm des iPhones holen."><link rel="icon" href="logo.png"><link rel="stylesheet" href="style.css">
+<style>
+.steps{list-style:none;padding:0!important;margin:8px 0 10px!important;counter-reset:s}
+.steps li{counter-increment:s;display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start;margin:0 0 14px!important}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font:800 16px var(--f)}
+.steps b{font-weight:800}
+.key{display:inline-flex;align-items:center;gap:6px;padding:2px 9px;border:1px solid var(--line);border-radius:9px;background:var(--surface-2);font-weight:700;white-space:nowrap;vertical-align:baseline}
+.key svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:4px;background:var(--surface-2);border-radius:14px;margin:14px 0 4px}
+.tabs button{font:700 .92rem var(--f);border:0;border-radius:11px;padding:10px 8px;background:none;color:var(--ink-2);cursor:pointer;min-height:44px}
+.tabs button[aria-selected=true]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(15,26,34,.18)}
+.pane[hidden]{display:none}
+.go{display:inline-block;background:var(--accent);color:var(--accent-ink)!important;text-decoration:none;padding:12px 22px;border-radius:14px}
+.ok{border-left:4px solid var(--accent);padding:2px 0 2px 12px;margin:10px 0}
+dt{font-weight:800;margin-top:12px}dd{margin:2px 0 6px;color:var(--ink-2)}
+</style>
+</head><body><main>
+<header class="brand"><img class="logo" src="logo.png" alt="" width="76" height="76"><h1>SchützenTracker</h1><p>Auf dem iPhone installieren</p></header>
+<nav aria-label="Seiten"><a href="./">Start</a><a href="datenschutz">Datenschutz</a><a href="impressum">Impressum</a><a href="konto-loeschen">Konto löschen</a></nav>
+
+<section class="card"><h2>So kommt die App aufs iPhone</h2>
+<p>SchützenTracker gibt es für das iPhone als <b>Web-App</b>. Du brauchst dafür keinen App Store und kein Apple-Konto, und es kostet nichts. Danach liegt SchützenTracker mit eigenem Symbol auf deinem Home-Bildschirm, öffnet sich ohne Browserleiste und funktioniert auch ohne Internet.</p>
+<p class="muted">Dauer: etwa 1 Minute. Wichtig: Nutze dafür <b>Safari</b>, den Browser mit dem blauen Kompass-Symbol.</p>
+<p style="text-align:center;margin:14px 0 16px"><a class="go" href="app/">SchützenTracker in Safari öffnen</a></p></section>
+
+<section class="card"><h2>Schritt für Schritt</h2>
+<p>Je nach iOS-Version sieht Safari etwas anders aus. Wähle deine Version. Du findest sie unter <b>Einstellungen → Allgemein → Info → iOS-Version</b>.</p>
+<div class="tabs" role="tablist" aria-label="iOS-Version">
+<button role="tab" id="t26" aria-controls="p26" aria-selected="true">iOS 26 und neuer</button>
+<button role="tab" id="t18" aria-controls="p18" aria-selected="false" tabindex="-1">iOS 18 und älter</button>
+</div>
+
+<div class="pane" id="p26" role="tabpanel" aria-labelledby="t26">
+<ol class="steps">
+<li><span>Öffne in <b>Safari</b> die Adresse <a href="app/">schuetzentracker.de/app</a>. Warte, bis die Startseite der App erscheint.</span></li>
+<li><span>Tippe unten rechts neben der Adressleiste auf <span class="key" aria-label="Drei Punkte"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="19" cy="12" r="1.3"/></svg>•••</span>.</span></li>
+<li><span>Tippe im Menü auf <span class="key"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M6 11H5v10h14V11h-1"/></svg>Teilen</span>.</span></li>
+<li><span>Wische im Teilen-Menü nach unten und tippe auf <span class="key"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8v8M8 12h8"/></svg>Zum Home-Bildschirm</span>. Siehst du es nicht, tippe zuerst auf <b>„Mehr“</b>.</span></li>
+<li><span>Lass den Schalter <b>„Als Web-App öffnen“</b> eingeschaltet. Nur dann startet SchützenTracker wie eine eigene App.</span></li>
+<li><span>Tippe oben rechts auf <b>„Hinzufügen“</b>.</span></li>
+</ol>
+</div>
+
+<div class="pane" id="p18" role="tabpanel" aria-labelledby="t18" hidden>
+<ol class="steps">
+<li><span>Öffne in <b>Safari</b> die Adresse <a href="app/">schuetzentracker.de/app</a>. Warte, bis die Startseite der App erscheint.</span></li>
+<li><span>Tippe unten in der Mitte auf das Teilen-Symbol <span class="key" aria-label="Teilen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M6 11H5v10h14V11h-1"/></svg></span> (Quadrat mit Pfeil nach oben). Siehst du keine Leiste, tippe einmal kurz unten auf den Bildschirm.</span></li>
+<li><span>Wische im Teilen-Menü nach unten und tippe auf <span class="key"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8v8M8 12h8"/></svg>Zum Home-Bildschirm</span>.</span></li>
+<li><span>Tippe oben rechts auf <b>„Hinzufügen“</b>.</span></li>
+</ol>
+</div>
+<p class="ok"><b>Fertig!</b> Auf deinem Home-Bildschirm liegt jetzt das SchützenTracker-Symbol. Starte die App ab jetzt immer über dieses Symbol, nicht mehr über Safari.</p>
+</section>
+
+<section class="card"><h2>Danach: Konto anlegen</h2>
+<p>Öffne in der App unten <b>„Konto“</b> und melde dich an oder registriere dich. Dann sind deine Trainings gesichert, du siehst sie auch auf anderen Geräten und kannst deinem Verein beitreten.</p>
+<p class="muted">Ohne Konto bleiben alle Daten nur auf diesem iPhone. Entfernst du das Symbol vom Home-Bildschirm, sind sie dann weg.</p></section>
+
+<section class="card"><h2>Fragen und Probleme</h2>
+<dl>
+<dt>Ich finde „Zum Home-Bildschirm“ nicht.</dt>
+<dd>Prüfe, ob du die Seite in <b>Safari</b> geöffnet hast. In manchen anderen Apps, zum Beispiel wenn du einen Link in WhatsApp oder Instagram antippst, öffnet sich nur eine Vorschau. Tippe dort auf „In Safari öffnen“ (Kompass-Symbol) und beginne von vorn. Im privaten Surfmodus geht es nicht.</dd>
+<dt>Die App öffnet sich mit Adressleiste wie eine Webseite.</dt>
+<dd>Dann war „Als Web-App öffnen“ ausgeschaltet. Lösche das Symbol (lange drücken → „Lesezeichen löschen“) und füge es noch einmal hinzu, diesmal mit eingeschaltetem Schalter.</dd>
+<dt>Wie bekomme ich Updates?</dt>
+<dd>Automatisch. Öffnest du die App mit Internet, lädt sie neue Versionen im Hintergrund. Spätestens beim übernächsten Start ist das Update da.</dd>
+<dt>Wie speichere ich den Rundenkampfzettel als PDF?</dt>
+<dd>Beim Export öffnet sich das Teilen-Menü. Dort kannst du die PDF zum Beispiel unter „In Dateien sichern“ speichern, drucken oder per Nachricht verschicken.</dd>
+<dt>Wie entferne ich die App?</dt>
+<dd>Symbol auf dem Home-Bildschirm lange drücken und „Lesezeichen löschen“ wählen. Die Daten auf dem iPhone werden dabei gelöscht. Was in deinem Konto gesichert ist, bleibt erhalten.</dd>
+<dt>Geht das auch auf Android oder am Computer?</dt>
+<dd>Ja. In Chrome öffnest du <a href="app/">schuetzentracker.de/app</a> und wählst im Menü (drei Punkte oben rechts) <b>„App installieren“</b> bzw. <b>„Zum Startbildschirm hinzufügen“</b>.</dd>
+</dl>
+<p class="muted">Noch Fragen? Schreib an <a href="mailto:support@schuetzentracker.de">support@schuetzentracker.de</a>.</p></section>
+
+<footer>© 2026 Jannik Huckert · <a href="impressum">Impressum</a> · <a href="datenschutz">Datenschutz</a></footer>
+</main>
+<script>
+(function () {
+  var tabs = [].slice.call(document.querySelectorAll('[role=tab]'));
+  function pick(t) { tabs.forEach(function (x) { var on = x === t; x.setAttribute('aria-selected', on); x.tabIndex = on ? 0 : -1; document.getElementById(x.getAttribute('aria-controls')).hidden = !on; }); }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { pick(t); });
+    t.addEventListener('keydown', function (e) { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { var n = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length]; pick(n); n.focus(); } });
+  });
+  /* Ab iOS 26 meldet Safari die iOS-Version nicht mehr genau, daher über die Safari-Version (Version/26) prüfen */
+  var m = /iPhone|iPad/.test(navigator.userAgent) && navigator.userAgent.match(/Version\/(\d+)/);
+  if (m && +m[1] < 26) pick(tabs[1]);
+})();
+</script>
+</body></html>
